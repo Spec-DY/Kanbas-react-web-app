@@ -5,7 +5,7 @@ export default function Dashboard() {
         <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
         <div id="wd-dashboard-courses">
             <div className="wd-dashboard-course">
-                <img src="/images/reactjs.jpg" width={200} alt="reactjs image"/>
+                <img src="/images/reactjs.jpg" width={200} alt="reactjs"/>
                 <div>
                     <a className="wd-dashboard-course-link"
                     href="#/Kanbas/Courses/001/Home">
@@ -19,7 +19,7 @@ export default function Dashboard() {
             </div>
             <br/>
             <div className="wd-dashboard-course">
-                <img src="/images/python.jpg" width={200} alt="image"/>
+                <img src="/images/python.jpg" width={200} alt="python"/>
                 <div>
                     <a className="wd-dashboard-course-link"
                     href="#/Kanbas/Courses/002/Home">
@@ -33,7 +33,7 @@ export default function Dashboard() {
             </div>
             <br/>
             <div className="wd-dashboard-course">
-                <img src="/images/datastructure.jpg" width={200} alt="image"/>
+                <img src="/images/datastructure.jpg" width={200} alt="data structure"/>
                 <div>
                     <a className="wd-dashboard-course-link"
                     href="#/Kanbas/Courses/003/Home">
@@ -48,7 +48,7 @@ export default function Dashboard() {
 
             <br/>
             <div className="wd-dashboard-course">
-                <img src="/images/algorithm.jpg" width={200} alt="image"/>
+                <img src="/images/algorithm.jpg" width={200} alt="algorithm"/>
                 <div>
                     <a className="wd-dashboard-course-link"
                     href="#/Kanbas/Courses/004/Home">
@@ -63,7 +63,7 @@ export default function Dashboard() {
 
             <br/>
             <div className="wd-dashboard-course">
-                <img src="/images/distributedsystem.jpg" width={200} alt="image" />
+                <img src="/images/distributedsystem.jpg" width={200} alt="distributed system" />
                 <div>
                     <a className="wd-dashboard-course-link"
                     href="#/Kanbas/Courses/005/Home">
@@ -78,7 +78,7 @@ export default function Dashboard() {
 
             <br/>
             <div className="wd-dashboard-course">
-                <img src="/images/math.jpg" width={200} alt="image"/>
+                <img src="/images/math.jpg" width={200} alt="math"/>
                 <div>
                     <a className="wd-dashboard-course-link"
                     href="#/Kanbas/Courses/006/Home">
@@ -93,7 +93,7 @@ export default function Dashboard() {
 
             <br/>
             <div className="wd-dashboard-course">
-                <img src="/images/network.jpg" width={200} alt="Computer network image" />
+                <img src="/images/network.jpg" width={200} alt="Computer network" />
                 <div>
                     <a className="wd-dashboard-course-link"
                     href="#/Kanbas/Courses/007/Home">
@@ -108,7 +108,7 @@ export default function Dashboard() {
 
             <br/>
             <div className="wd-dashboard-course">
-                <img src="/images/operatingsystem.jpg" width={200} alt="image"/>
+                <img src="/images/operatingsystem.jpg" width={200} alt="operating system"/>
                 <div>
                     <a className="wd-dashboard-course-link"
                     href="#/Kanbas/Courses/008/Home">
