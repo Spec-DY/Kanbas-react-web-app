@@ -1,140 +1,113 @@
 export default function Dashboard() {
     return (
-    <div id="wd-dashboard">
-        <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-        <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
-        <div id="wd-dashboard-courses">
-            <div className="wd-dashboard-course">
-                <img src="/images/reactjs.jpg" width={200} alt="reactjs"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/001/Home">
-                    CS001 React JS
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Full Stack software developer
-                    </p>
-                    <a href="#/Kanbas/Courses/001/Home"> Go </a>
+        <div id="wd-dashboard">
+            <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+            <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
+            <div id="wd-dashboard-courses" className="row">
+                <div className="row row-cols-1 row-cols-md-5 g-4">
+                    <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+                        <div className="card">
+                            <a className="wd-dashboard-course-link text-decoration-none text-dark"
+                            href="#/Kanbas/Courses/1234/Home">
+                                <img src="/images/reactjs.jpg" width="100%"/>
+                                <div className="card-body">
+                                <h5 className="wd-dashboard-course-title card-title">
+                                CS1234 React JS
+                                </h5>
+                                <p className="card-text">
+                                    Full Stack software developer
+                                </p>
+                                    <button className="btn btn-primary"> Go </button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+                        <div className="card">
+                            <a className="wd-dashboard-course-link text-decoration-none text-dark" href="#/Kanbas/Courses/002/Home">
+                                <img src="/images/python.jpg" width="100%" alt="python" />
+                                <div className="card-body">
+                                    <h5 className="wd-dashboard-course-title card-title">CS002 Python</h5>
+                                    <p className="card-text">Learn Python</p>
+                                    <button className="btn btn-primary">Go</button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+                        <div className="card">
+                            <a className="wd-dashboard-course-link text-decoration-none text-dark" href="#/Kanbas/Courses/003/Home">
+                                <img src="/images/datastructure.jpg" width="100%" alt="data structure" />
+                                <div className="card-body">
+                                    <h5 className="wd-dashboard-course-title card-title">CS003 Data Structure</h5>
+                                    <p className="card-text">Dive into basic data structure</p>
+                                    <button className="btn btn-primary">Go</button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+                        <div className="card">
+                            <a className="wd-dashboard-course-link text-decoration-none text-dark" href="#/Kanbas/Courses/004/Home">
+                                <img src="/images/algorithm.jpg" width="100%" alt="algorithm" />
+                                <div className="card-body">
+                                    <h5 className="wd-dashboard-course-title card-title">CS004 Algorithm</h5>
+                                    <p className="card-text">Algorithm</p>
+                                    <button className="btn btn-primary">Go</button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+                        <div className="card">
+                            <a className="wd-dashboard-course-link text-decoration-none text-dark" href="#/Kanbas/Courses/005/Home">
+                                <img src="/images/distributedsystem.jpg" width="100%" alt="distributed system" />
+                                <div className="card-body">
+                                    <h5 className="wd-dashboard-course-title card-title">CS005 Distributed System</h5>
+                                    <p className="card-text">Distributed computing system</p>
+                                    <button className="btn btn-primary">Go</button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+                        <div className="card">
+                            <a className="wd-dashboard-course-link text-decoration-none text-dark" href="#/Kanbas/Courses/006/Home">
+                                <img src="/images/math.jpg" width="100%" alt="math" />
+                                <div className="card-body">
+                                    <h5 className="wd-dashboard-course-title card-title">CS006 Math</h5>
+                                    <p className="card-text">Discrete structure in computer science</p>
+                                    <button className="btn btn-primary">Go</button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+                        <div className="card">
+                            <a className="wd-dashboard-course-link text-decoration-none text-dark" href="#/Kanbas/Courses/007/Home">
+                                <img src="/images/network.jpg" width="100%" alt="Computer network" />
+                                <div className="card-body">
+                                    <h5 className="wd-dashboard-course-title card-title">CS007 Computer Network</h5>
+                                    <p className="card-text">Computer networks from top to bottom</p>
+                                    <button className="btn btn-primary">Go</button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+                        <div className="card">
+                            <a className="wd-dashboard-course-link text-decoration-none text-dark" href="#/Kanbas/Courses/008/Home">
+                                <img src="/images/operatingsystem.jpg" width="100%" alt="operating system" />
+                                <div className="card-body">
+                                    <h5 className="wd-dashboard-course-title card-title">CS008 Operating System</h5>
+                                    <p className="card-text">Develop operating system from scratch</p>
+                                    <button className="btn btn-primary">Go</button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/python.jpg" width={200} alt="python"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/002/Home">
-                    CS002 Python
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Learn Python
-                    </p>
-                    <a href="#/Kanbas/Courses/002/Home"> Go </a>
-                </div>
-            </div>
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/datastructure.jpg" width={200} alt="data structure"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/003/Home">
-                    CS003 Data Structure
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Dive into basic data structure
-                    </p>
-                    <a href="#/Kanbas/Courses/003/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/algorithm.jpg" width={200} alt="algorithm"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/004/Home">
-                    CS004 Algorithm
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Algorithm
-                    </p>
-                    <a href="#/Kanbas/Courses/004/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/distributedsystem.jpg" width={200} alt="distributed system" />
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/005/Home">
-                    CS005 Distributed System
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Distributed computing system
-                    </p>
-                    <a href="#/Kanbas/Courses/005/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/math.jpg" width={200} alt="math"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/006/Home">
-                    CS006 Math
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Discrete structure in computer science
-                    </p>
-                    <a href="#/Kanbas/Courses/006/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/network.jpg" width={200} alt="Computer network" />
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/007/Home">
-                    CS007 Computer Network
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Computer networks from top to bottom
-                    </p>
-                    <a href="#/Kanbas/Courses/007/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/operatingsystem.jpg" width={200} alt="operating system"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/008/Home">
-                    CS008 Operating System
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Develop operating system from scratch
-                    </p>
-                    <a href="#/Kanbas/Courses/008/Home"> Go </a>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
-    </div>
-);}
+    );
+}
