@@ -5,6 +5,8 @@ import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { Navigate, Route, Routes } from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 export default function Courses() {
     return (

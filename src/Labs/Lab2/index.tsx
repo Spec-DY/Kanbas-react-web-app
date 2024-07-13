@@ -1,6 +1,8 @@
 import "./index.css";
 import ReactIconsSampler from './ReactIcons';
 import ScreenSizeLabel from './ScreenSizeLabel';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 export default function Lab2() {
     return (
         <div className="container">

@@ -1,3 +1,5 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 export default function Dashboard() {
     return (
         <div id="wd-dashboard">
