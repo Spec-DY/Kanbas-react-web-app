@@ -1,5 +1,6 @@
 import Lab1 from "./Lab1";
 import { Route, Routes, Navigate } from "react-router";
+import "bootstrap/dist/css/bootstrap.min.css";
 import TOC from "./TOC";
 import Lab2 from "./Lab2";
 import Lab3 from "./Lab3";
@@ -18,4 +19,4 @@ return (
             <Route path="Lab3" element={<Lab3 />} />
         </Routes>
     </div>
-);}
+);} 
