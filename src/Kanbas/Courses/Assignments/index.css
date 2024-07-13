@@ -1,0 +1,39 @@
+#wd-assignments {
+    padding: 20px;
+}
+
+#wd-assignments-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#wd-assignment-list .wd-assignment-link {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+}
+
+#wd-assignment-list .list-group-item {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 4px solid green;
+}
+
+#wd-assignment-list .list-group-item .d-flex.align-items-center {
+    flex-grow: 1;
+}
+
+#wd-search-assignment {
+    border-left: none;
+}
+
+.text-danger {
+    color: red;
+}
+
+.input-group-text {
+    background-color: #fff;
+}

@@ -1,0 +1,11 @@
+#wd-assignments-editor {
+    padding: 20px;
+}
+
+#wd-assignments-editor .form-label {
+    font-weight: bold;
+}
+
+#wd-assignments-editor .form-check-label {
+    margin-left: 10px;
+}
