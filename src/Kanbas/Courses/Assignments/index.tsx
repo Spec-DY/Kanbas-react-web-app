@@ -2,8 +2,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { FaPlus, FaCheckCircle, FaSearch, FaRegEdit } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useParams, Link } from "react-router-dom";
+import * as db from "../../Database";
 
 export default function Assignments() {
+    const { cid } = useParams<{ cid: string }>();
+    const assignments = db.assignments.filter((assignment) => assignment.course === cid);
+
     return (
         <div id="wd-assignments" className="p-3">
             <div className="d-flex justify-content-between mb-3 align-items-center">
@@ -22,66 +27,28 @@ export default function Assignments() {
                 <button className="btn btn-outline-secondary btn-sm"><FaPlus /></button>
             </h3>
             <ul id="wd-assignment-list" className="list-group">
-                <li className="wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
-                    <div className="d-flex align-items-center flex-grow-1">
-                        <BsThreeDotsVertical className="me-2" />
-                        <FaRegEdit className="me-2" />
-                        <div>
-                            <a className="wd-assignment-link" href="#/Kanbas/Courses/1234/Assignments/123">
-                                A1 - ENV + HTML
-                            </a>
+                {assignments.map((assignment) => (
+                    <li key={assignment._id} className="wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
+                        <div className="d-flex align-items-center flex-grow-1">
+                            <BsThreeDotsVertical className="me-2" />
+                            <FaRegEdit className="me-2" />
                             <div>
-                                <span className="text-danger">Multiple Modules</span> | 
-                                <strong> Not available until</strong> May 6 at 12:00am | 
-                                <strong> Due</strong> May 13 at 11:59pm | 100 pts
+                                <Link className="wd-assignment-link" to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}>
+                                    {assignment.title}
+                                </Link>
+                                <div>
+                                    <span className="text-danger">Multiple Modules</span> |
+                                    <strong> Not available until</strong> May 6 at 12:00am |
+                                    <strong> Due</strong> May 13 at 11:59pm | 100 pts
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-end">
-                        <FaCheckCircle className="text-success me-2" />
-                        <BsThreeDotsVertical />
-                    </div>
-                </li>
-                <li className="wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
-                    <div className="d-flex align-items-center flex-grow-1">
-                        <BsThreeDotsVertical className="me-2" />
-                        <FaRegEdit className="me-2" />
-                        <div>
-                            <a className="wd-assignment-link" href="#/Kanbas/Courses/1234/Assignments/124">
-                                A2 - CSS + BOOTSTRAP
-                            </a>
-                            <div>
-                                <span className="text-danger">Multiple Modules</span> | 
-                                <strong> Not available until</strong> May 13 at 12:00am | 
-                                <strong> Due</strong> May 20 at 11:59pm | 100 pts
-                            </div>
+                        <div className="d-flex align-items-center justify-content-end">
+                            <FaCheckCircle className="text-success me-2" />
+                            <BsThreeDotsVertical />
                         </div>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-end">
-                        <FaCheckCircle className="text-success me-2" />
-                        <BsThreeDotsVertical />
-                    </div>
-                </li>
-                <li className="wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
-                    <div className="d-flex align-items-center flex-grow-1">
-                        <BsThreeDotsVertical className="me-2" />
-                        <FaRegEdit className="me-2" />
-                        <div>
-                            <a className="wd-assignment-link" href="#/Kanbas/Courses/1234/Assignments/125">
-                                A3 - JAVASCRIPT + REACT
-                            </a>
-                            <div>
-                                <span className="text-danger">Multiple Modules</span> | 
-                                <strong> Not available until</strong> May 20 at 12:00am | 
-                                <strong> Due</strong> May 27 at 11:59pm | 100 pts
-                            </div>
-                        </div>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-end">
-                        <FaCheckCircle className="text-success me-2" />
-                        <BsThreeDotsVertical />
-                    </div>
-                </li>
+                    </li>
+                ))}
             </ul>
         </div>
     );
