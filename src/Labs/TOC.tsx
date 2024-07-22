@@ -1,4 +1,7 @@
+import { useLocation } from "react-router";
+
 export default function TOC() {
+    const { pathname } = useLocation();
     return (
     <ul>
     <li><a id="wd-a" href="#/Labs">Labs</a></li>
