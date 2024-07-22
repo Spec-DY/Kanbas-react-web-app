@@ -1,8 +1,27 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { FaSearch, FaFilter, FaFileImport, FaFileExport, FaCog } from 'react-icons/fa';
 import './index.css';
+import * as db from '../../Database';
 
 export default function Grades() {
+    const { cid } = useParams<{ cid: string }>();
+
+    // 获取当前课程的学生
+    const enrollments = db.enrollments.filter((enrollment) => enrollment.course === cid);
+    const students = enrollments.map((enrollment) => {
+        return db.users.find((user) => user._id === enrollment.user);
+    }).filter(Boolean); // 过滤掉任何 undefined
+
+    // 获取当前课程的作业
+    const assignments = db.assignments.filter((assignment) => assignment.course === cid);
+
+    // 获取学生的成绩
+    const getGrade = (studentId: string, assignmentId: string) => {
+        const gradeEntry = db.grades.find((grade) => grade.student === studentId && grade.assignment === assignmentId);
+        return gradeEntry ? gradeEntry.grade : 'N/A';
+    };
+
     return (
         <div id="wd-grades" className="container mt-4">
             <h1>Grades</h1>
@@ -43,50 +62,22 @@ export default function Grades() {
                     <thead>
                         <tr>
                             <th>Student Name</th>
-                            <th>A1 SETUP <small>(Out of 100)</small></th>
-                            <th>A2 HTML <small>(Out of 100)</small></th>
-                            <th>A3 CSS <small>(Out of 100)</small></th>
-                            <th>A4 BOOTSTRAP <small>(Out of 100)</small></th>
+                            {assignments.map((assignment) => (
+                                <th key={assignment._id}>
+                                    {assignment.title} <small>(Out of 100)</small>
+                                </th>
+                            ))}
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Jane Adams</td>
-                            <td>100%</td>
-                            <td>97%</td>
-                            <td>96%</td>
-                            <td>98%</td>
-                        </tr>
-                        <tr>
-                            <td>Christina Allen</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                        </tr>
-                        <tr>
-                            <td>Samreen Ansari</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                        </tr>
-                        <tr>
-                            <td>Han Bao</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                            <td>
-                                <input type="text" className="form-control" defaultValue="90%" />
-                            </td>
-                            <td>100%</td>
-                        </tr>
-                        <tr>
-                            <td>Mahi Sai Srinivas Bobbili</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                            <td>100%</td>
-                        </tr>
+                        {students.map((student) => (
+                            <tr key={student!._id}>
+                                <td>{student!.firstName} {student!.lastName}</td>
+                                {assignments.map((assignment) => (
+                                    <td key={assignment._id}>{getGrade(student!._id, assignment._id)}%</td>
+                                ))}
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
