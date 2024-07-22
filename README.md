@@ -1,6 +1,6 @@
 
 Website:
-https://dingyang-kanbas-react-web-app.netlify.app
+https://kanbas-dingyang.netlify.app/#/Labs/Lab1
 
 ## Available Scripts
 
