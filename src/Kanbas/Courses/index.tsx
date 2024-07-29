@@ -7,9 +7,9 @@ import Grades from './Grades';
 import AssignmentEditor from "./Assignments/Editor";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
-import courses from "../Database/courses.json";
 
-export default function Courses() {
+
+export default function Courses({ courses }: { courses: any[]; }) {
     const { cid } = useParams<{ cid: string }>();
     const course = courses.find((course) => course._id === cid);
     const { pathname } = useLocation();
