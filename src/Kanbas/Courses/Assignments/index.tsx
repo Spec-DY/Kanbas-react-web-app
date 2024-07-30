@@ -2,12 +2,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { FaPlus, FaCheckCircle, FaSearch, FaRegEdit } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useParams, Link } from "react-router-dom";
-import * as db from "../../Database";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import React from "react";
 
 export default function Assignments() {
     const { cid } = useParams<{ cid: string }>();
-    const assignments = db.assignments.filter((assignment) => assignment.course === cid);
+    const assignments = useSelector((state: any) => state.assignmentsReducer.assignments.filter((assignment: any) => assignment.course === cid));
+    const navigate = useNavigate();
 
     return (
         <div id="wd-assignments" className="p-3">
@@ -18,7 +20,7 @@ export default function Assignments() {
                 </div>
                 <div>
                     <button className="btn btn-outline-secondary me-2"><FaPlus className="me-1" /> Group</button>
-                    <button className="btn btn-danger"><FaPlus className="me-1" /> Assignment</button>
+                    <button className="btn btn-danger" onClick={() => navigate(`New`)}><FaPlus className="me-1" /> Assignment</button>
                 </div>
             </div>
             <h3 id="wd-assignments-title" className="mb-3 d-flex justify-content-between align-items-center">
@@ -27,7 +29,7 @@ export default function Assignments() {
                 <button className="btn btn-outline-secondary btn-sm"><FaPlus /></button>
             </h3>
             <ul id="wd-assignment-list" className="list-group">
-                {assignments.map((assignment) => (
+                {assignments.map((assignment: any) => (
                     <li key={assignment._id} className="wd-assignment-list-item list-group-item d-flex justify-content-between align-items-center">
                         <div className="d-flex align-items-center flex-grow-1">
                             <BsThreeDotsVertical className="me-2" />
@@ -38,8 +40,8 @@ export default function Assignments() {
                                 </Link>
                                 <div>
                                     <span className="text-danger">Multiple Modules</span> |
-                                    <strong> Not available until</strong> May 6 at 12:00am |
-                                    <strong> Due</strong> May 13 at 11:59pm | 100 pts
+                                    <strong> Not available until</strong> {assignment.availableFrom} |
+                                    <strong> Due</strong> {assignment.dueDate} | {assignment.points} pts
                                 </div>
                             </div>
                         </div>
