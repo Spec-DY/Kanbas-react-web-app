@@ -38,8 +38,13 @@ const assignmentsSlice = createSlice({
         state.assignments[index] = action.payload;
       }
     },
+    deleteAssignment: (state, action: PayloadAction<string>) => {
+      state.assignments = state.assignments.filter(
+        (assignment) => assignment._id !== action.payload
+      );
+    },
   },
 });
 
-export const { addAssignment, updateAssignment } = assignmentsSlice.actions;
+export const { addAssignment, updateAssignment, deleteAssignment } = assignmentsSlice.actions;
 export default assignmentsSlice.reducer;
