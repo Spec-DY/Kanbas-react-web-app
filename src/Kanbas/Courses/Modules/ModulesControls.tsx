@@ -4,25 +4,21 @@ import ModuleEditor from "./ModuleEditor";
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function ModulesControls({ moduleName, setModuleName, addModule }:
-    { moduleName: string; setModuleName: (title: string) => void; addModule: () => void; }) {
-        const [showModal, setShowModal] = useState(false);
-
-        const handleButtonClick = () => {
-            setShowModal(true);
-        };
+export default function ModulesControls({ moduleName, setModuleName, addModule, showModal, setShowModal }:
+    { moduleName: string; setModuleName: (title: string) => void; addModule: () => void; showModal: boolean; setShowModal: (show: boolean) => void }) {
 
     return (
         <div id="wd-modules-controls" className="text-nowrap">
             <button 
-            id="wd-add-module-btn" 
-            className="btn btn-lg btn-danger me-1 float-end"
-            onClick={handleButtonClick}>
-            
-            <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
-            Module
+                id="wd-add-module-btn" 
+                className="btn btn-lg btn-danger me-1 float-end"
+                data-bs-toggle="modal" 
+                data-bs-target="#wd-add-module-dialog"
+                onClick={() => setShowModal(true)}>
+                <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+                Module
             </button>
-            
+
             <div className="dropdown d-inline me-1 float-end">
                 <button
                     id="wd-publish-all-btn"
@@ -59,6 +55,7 @@ export default function ModulesControls({ moduleName, setModuleName, addModule }
                     </li>
                 </ul>
             </div>
+
             <button id="wd-view-progress" className="btn btn-lg btn-primary me-1 float-end">
                 View Progress
             </button>
@@ -66,18 +63,14 @@ export default function ModulesControls({ moduleName, setModuleName, addModule }
                 Collapse All
             </button>
 
-            {showModal && (
-                <ModuleEditor
-                    dialogTitle="Add Module"
-                    moduleName={moduleName}
-                    setModuleName={setModuleName}
-                    addModule={() => {
-                        addModule();
-                        setShowModal(false);
-                    }}
-                    onClose={() => setShowModal(false)}
-                />
-            )}
+            <ModuleEditor 
+                dialogTitle="Add Module" 
+                moduleName={moduleName}
+                setModuleName={setModuleName} 
+                addModule={addModule} 
+                showModal={showModal}
+                setShowModal={setShowModal}
+            />
         </div>
     );
 }

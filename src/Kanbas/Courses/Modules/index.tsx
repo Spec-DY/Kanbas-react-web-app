@@ -11,6 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 export default function Modules() {
     const { cid } = useParams();
     const [moduleName, setModuleName] = useState("");
+    const [showModal, setShowModal] = useState(false);
+    
     const { modules } = useSelector((state: any) => state.modulesReducer);
     const dispatch = useDispatch();
 
@@ -23,6 +25,8 @@ export default function Modules() {
                     dispatch(addModule({ name: moduleName, course: cid }));
                     setModuleName("");
                 }}
+                showModal={showModal}
+                setShowModal={setShowModal}
             /><br /><br /><br /><br />
             <ul id="wd-modules" className="list-group rounded-0">
                 {modules
