@@ -4,14 +4,24 @@ import { FaPlus, FaCheckCircle, FaSearch, FaRegEdit, FaTrash } from "react-icons
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import React, { useState } from "react";
-import { deleteAssignment } from './reducer';
+import React, { useState, useEffect } from "react";
+import {  deleteAssignment, setAssignment } from './reducer';
+import * as client from "./client";
 
 export default function Assignments() {
     const { cid } = useParams<{ cid: string }>();
     const assignments = useSelector((state: any) => state.assignmentsReducer.assignments.filter((assignment: any) => assignment.course === cid));
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const fetchAssignments = async () => {
+        const assignments = await client.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignment(assignments));
+      };
+      useEffect(() => {
+        fetchAssignments();
+      }, []);
+
     const [showDialog, setShowDialog] = useState(false);
     const [assignmentToDelete, setAssignmentToDelete] = useState<any | null>(null);
 
@@ -20,9 +30,15 @@ export default function Assignments() {
         setShowDialog(true);
     };
 
+    const removeAssignment = async (assignmentId: string) => {
+        await client.deleteAssignment(assignmentId);
+        dispatch(deleteAssignment(assignmentId));
+    };
+
+
     const confirmDelete = () => {
         if (assignmentToDelete) {
-            dispatch(deleteAssignment(assignmentToDelete._id));
+            removeAssignment(assignmentToDelete._id);
         }
         setShowDialog(false);
     };
@@ -55,7 +71,7 @@ export default function Assignments() {
                                     {assignment.title}
                                 </Link>
                                 <div>
-                                    <span className="text-danger">Multiple Modules</span> |
+                                    <span className="text-danger">Multiple Assignmentss</span> |
                                     <strong> Not available until</strong> {assignment.availableFrom} |
                                     <strong> Due</strong> {assignment.dueDate} | {assignment.points} pts
                                 </div>

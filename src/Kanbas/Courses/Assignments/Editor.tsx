@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAssignment, updateAssignment } from './reducer';
+import * as client from "./client";
 
 interface Assignment {
   _id: string;
@@ -42,12 +43,14 @@ export default function AssignmentEditor() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (aid) {
+            await client.updateAssignment(formState);
             dispatch(updateAssignment(formState));
         } else {
-            dispatch(addAssignment(formState));
+            const newAssignment = await client.createAssignment(cid as string, formState);
+            dispatch(addAssignment(newAssignment));
         }
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };
