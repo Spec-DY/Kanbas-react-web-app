@@ -23,7 +23,7 @@ export default function Lab5() {
         <QueryParameters />
         <WorkingWithObjects />
         <WorkingWithArrays />
-        <HttpClient />
+        {/* <HttpClient /> */}
       </div>
     );
   }
