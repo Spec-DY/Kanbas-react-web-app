@@ -7,16 +7,16 @@ import * as db from '../../Database';
 export default function Grades() {
     const { cid } = useParams<{ cid: string }>();
 
-    // 获取当前课程的学生
+    // get students for current course
     const enrollments = db.enrollments.filter((enrollment) => enrollment.course === cid);
     const students = enrollments.map((enrollment) => {
         return db.users.find((user) => user._id === enrollment.user);
-    }).filter(Boolean); // 过滤掉任何 undefined
+    }).filter(Boolean);
 
-    // 获取当前课程的作业
+    // get assignments for current course
     const assignments = db.assignments.filter((assignment) => assignment.course === cid);
 
-    // 获取学生的成绩
+    // get students grades
     const getGrade = (studentId: string, assignmentId: string) => {
         const gradeEntry = db.grades.find((grade) => grade.student === studentId && grade.assignment === assignmentId);
         return gradeEntry ? gradeEntry.grade : 'N/A';
