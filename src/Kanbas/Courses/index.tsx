@@ -8,7 +8,8 @@ import AssignmentEditor from "./Assignments/Editor";
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import { FaAlignJustify } from "react-icons/fa";
 
-import PeopleTable from "../../Courses/People/Table";
+import PeopleTable from "./People/Table";
+import PeopleDetails from "./People/Details";
 
 
 export default function Courses({ courses }: { courses: any[]; }) {
@@ -39,6 +40,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
                         <Route path="Assignments/:aid" element={<AssignmentEditor />} />
                         <Route path="Grades" element={<Grades />} />
                         <Route path="People" element={<PeopleTable />} />
+                        <Route path="People/:cid" element={<PeopleTable />} />
                     </Routes>
                 </div>
             </div>
