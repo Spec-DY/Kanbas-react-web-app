@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from "react-router-dom";
-import * as db from "../Database";
+
 
 export default function Dashboard({ courses, course, setCourse, addNewCourse,
     deleteCourse, updateCourse }: {
@@ -10,7 +10,6 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
     updateCourse: () => void; })
     {
 
-    
     
     return (
         <div id="wd-dashboard">
