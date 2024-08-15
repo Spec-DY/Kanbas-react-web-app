@@ -27,9 +27,22 @@ export default function Modules() {
     }, [cid]);
 
     const createModule = async (module: any) => {
+        console.log("create module cid:", cid);
+        
+        // 等待从服务器创建的新模块
         const newModule = await client.createModule(cid as string, module);
-        dispatch(addModule(newModule));
+        
+        // 检查从服务器返回的模块对象
+        console.log("create module returned newModule:", newModule);
+        
+        if (newModule._id) {
+            console.log("create module module._id:", newModule._id);
+            dispatch(addModule(newModule));
+        } else {
+            console.error("No _id found in the returned module:", newModule);
+        }
     };
+    
 
     const removeModule = async (moduleId: string) => {
         await client.deleteModule(cid as string, moduleId);
@@ -37,6 +50,8 @@ export default function Modules() {
     };
 
     const saveModule = async (module: any) => {
+        console.log("save module cid:", cid);
+        console.log("savemodule module._id:", module._id);
         const status = await client.updateModule(cid as string, module);
         dispatch(updateModule(module));
     };
