@@ -2,6 +2,7 @@ import axios from "axios";
 export const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const axiosWithCredentials = axios.create({ withCredentials: true });
 export const USERS_API = `${REMOTE_SERVER}/api/users`;
+export const COURSES_API = `${REMOTE_SERVER}/api/courses`;
 
 export const signin = async (credentials: any) => {
   const response = await axiosWithCredentials.post( `${USERS_API}/signin`, credentials );
@@ -11,7 +12,7 @@ export const signin = async (credentials: any) => {
 export const profile = async () => {
     const response = await axiosWithCredentials.post(`${USERS_API}/profile`);
     return response.data;
-  };
+};
 
 export const signup = async (user: any) => {
     const response = await axiosWithCredentials.post(`${USERS_API}/signup`, user);
@@ -22,4 +23,9 @@ export const signout = async () => {
     const response = await axiosWithCredentials.post(`${USERS_API}/signout`);
     return response.data;
 };
-  
+
+// Fetch courses associated with a specific user
+export const fetchCoursesForUser = async (userId: string) => {
+    const response = await axios.get(`${USERS_API}/${userId}/courses`);
+    return response.data;
+};
