@@ -52,7 +52,10 @@ export default function Assignments() {
                 </div>
                 <div>
                     <button className="btn btn-outline-secondary me-2"><FaPlus className="me-1" /> Group</button>
-                    <button className="btn btn-danger" onClick={() => navigate(`New`)}><FaPlus className="me-1" /> Assignment</button>
+                    <button className="btn btn-danger" 
+                            onClick={() => navigate(`New`)}><FaPlus 
+                            className="me-1" />
+                            Assignment</button>
                 </div>
             </div>
             <h3 id="wd-assignments-title" className="mb-3 d-flex justify-content-between align-items-center">

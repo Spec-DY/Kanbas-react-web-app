@@ -16,7 +16,7 @@ export default function Signin() {
       const currentUser = await client.signin(credentials);
       dispatch(setCurrentUser(currentUser));
       
-      // 获取当前用户的课程
+      // fetch current user courses
       const courses = await client.fetchCoursesForUser(currentUser._id);
       dispatch(setCourses(courses));
 

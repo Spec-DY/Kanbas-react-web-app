@@ -15,6 +15,7 @@ export default function Modules() {
     const [showModal, setShowModal] = useState(false);
     
     const { modules } = useSelector((state: any) => state.modulesReducer);
+    const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
     const dispatch = useDispatch();
 
     const fetchModules = async () => {
@@ -58,6 +59,7 @@ export default function Modules() {
 
     return (
         <div id="wd-modules">
+            {currentUser && currentUser.role === "FACULTY" && (
             <ModulesControls 
                 setModuleName={setModuleName} 
                 moduleName={moduleName} 
@@ -67,7 +69,9 @@ export default function Modules() {
                 }}
                 showModal={showModal}
                 setShowModal={setShowModal}
-            /><br /><br /><br /><br />
+            />
+            )}
+            <br /><br /><br /><br />
             <ul id="wd-modules" className="list-group rounded-0">
                 {modules
                     .filter((module: any) => module.course === cid)
@@ -86,11 +90,13 @@ export default function Modules() {
                                         }}
                                         value={module.name}/>
                                 )}
-                                <ModuleControlButtons 
-                                    moduleId={module._id}
-                                    deleteModule={() => { removeModule(module._id); }}
-                                    editModule={() => dispatch(editModule(module._id))}
-                                />
+                                {currentUser && currentUser.role === "FACULTY" && (
+                                    <ModuleControlButtons 
+                                        moduleId={module._id}
+                                        deleteModule={() => { removeModule(module._id); }}
+                                        editModule={() => dispatch(editModule(module._id))}
+                                    />
+                                )}
                             </div>
                             {module.lessons && (
                                 <ul className="wd-lessons list-group rounded-0">

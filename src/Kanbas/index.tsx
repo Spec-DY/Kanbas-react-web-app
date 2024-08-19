@@ -10,6 +10,7 @@ import * as client from "./Courses/client";
 import Account from "./Account";
 import ProtectedRoute from "./ProtectedRoute";
 import { fetchCoursesForUser } from "./Account/client";
+import EnrollCourses from "./Courses/EnrollCourses";
 
 export default function Kanbas() {
     const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
@@ -23,7 +24,9 @@ export default function Kanbas() {
     };
     
     useEffect(() => {
-        fetchCourses();
+        if (currentUser) {
+            fetchCourses();
+        }
     }, [currentUser]);
     
     const [course, setCourse] = useState<any>({
@@ -49,6 +52,12 @@ export default function Kanbas() {
         );
     };
 
+    const enrollInCourse = async (courseId: string) => {  // << 新增enrollInCourse函数
+        await client.enrollInCourse(courseId, currentUser._id);
+        fetchCourses(); // Refresh the courses after enrollment
+    };
+    
+
     return (
         <div id="wd-kanbas">
             <KanbasNavigation />
@@ -64,8 +73,11 @@ export default function Kanbas() {
                                 setCourse={setCourse}
                                 addNewCourse={addNewCourse}
                                 deleteCourse={deleteCourse}
-                                updateCourse={updateCourse}/>
+                                updateCourse={updateCourse}
+                                enrollInCourse={enrollInCourse}  // << 传递enrollInCourse函数
+                                />
                         </ProtectedRoute>} />
+                    <Route path="EnrollCourses" element={<ProtectedRoute><EnrollCourses enrollInCourse={enrollInCourse} /></ProtectedRoute>} />
                     <Route path="Courses/:cid/*" element={<ProtectedRoute><Courses courses={courses} /></ProtectedRoute>} />
                     <Route path="Calendar" element={<h1>Calendar</h1>} />
                     <Route path="Inbox" element={<h1>Inbox</h1>} />

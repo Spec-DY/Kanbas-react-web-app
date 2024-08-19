@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 export default function Dashboard({ courses, course, setCourse, addNewCourse,
-    deleteCourse, updateCourse}: {
+    deleteCourse, updateCourse, enrollInCourse}: {
     courses: any[]; course: any; setCourse: (course: any) => void;
     addNewCourse: () => void; deleteCourse: (course: any) => void;
-    updateCourse: () => void; })
+    updateCourse: () => void; enrollInCourse: (courseId: string) => void;})
     {
 
-    
+        const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
     return (
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+            {currentUser && currentUser.role === "FACULTY" && ( // based on role
+                <>
             <h5>New Course
             <br />
             <input value={course.name} className="form-control mb-2" 
@@ -28,7 +31,18 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                 onClick={updateCourse} id="wd-update-course-click">
             Update
             </button>
+
             </h5><hr />
+            </>
+            )}
+
+            {currentUser && currentUser.role === "STUDENT" && (
+                <Link to="/Kanbas/EnrollCourses">
+                    <button id="wd-enroll-course-click" className="btn btn-primary float-end">
+                        Browse Courses
+                    </button>
+                </Link>
+            )}
 
             <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
             <div id="wd-dashboard-courses" className="row">
@@ -47,7 +61,10 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                                         <p className="wd-dashboard-course-title card-text" style={{ maxHeight: 53, overflow: "hidden" }}>
                                             {course.description}
                                         </p>
+
                                         <button className="btn btn-primary">Go</button>
+                                        {currentUser && currentUser.role === "FACULTY" && (  // based on role
+                                            <>
                                         <button onClick={(event) => {
                                             event.preventDefault();
                                             deleteCourse(course._id);
@@ -62,7 +79,9 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                                             className="btn btn-warning me-2 float-end" >
                                             Edit
                                         </button>
-
+                                    
+                                        </>
+                                        )}
                                     </div>
                                 </div>
                                 
