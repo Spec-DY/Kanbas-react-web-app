@@ -4,6 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchQuizzesForCourse, deleteQuiz as deleteQuizAPI, createQuiz as createQuizAPI } from "./client";
 import { setQuizzes, deleteQuiz, addQuiz } from "./reducer";
 import { FaTrash, FaPlus } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaRegEdit } from "react-icons/fa";
+
 
 export default function Quizzes() {
   const { cid } = useParams<{ cid: string }>();
@@ -58,24 +62,51 @@ export default function Quizzes() {
     }
   };
 
+  const renderQuizStatus = (quiz: any) => {
+    const now = new Date();
+    if (now < new Date(quiz.availableFrom)) {
+        return `Not available until ${new Date(quiz.availableFrom).toLocaleDateString()}`;
+    } else if (now > new Date(quiz.dueDate)) {
+      return "Closed";
+    } else {
+      return "Available";
+    }
+  };
+
+  const formatDueDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // format date to userfriendly
+  };
+
   return (
     <div id="wd-quizzes" className="p-3">
-      <h3>QUIZZES</h3>
-      <button className="btn btn-primary mb-3" onClick={handleCreateQuiz}>
-        <FaPlus className="me-2" /> Add Quiz
-      </button>
-      <ul>
+      <div className="d-flex justify-content-between mb-3 align-items-center">
+        <div className="input-group w-50">
+          <span className="input-group-text bg-white"><FaRegEdit /></span>
+          <input id="wd-search-quiz" className="form-control" placeholder="Search for Quiz" />
+        </div>
+        <button className="btn btn-danger" onClick={handleCreateQuiz}><FaPlus className="me-1" /> Quiz</button>
+      </div>
+      <h3 className="mb-3">Quizzes</h3>
+      <ul className="list-group">
         {quizzes.length === 0 ? (
           <p>No quizzes found for this course.</p>
         ) : (
           quizzes.map((quiz: any) => (
-            <li key={quiz._id}>
-              {quiz.title}, {quiz.points}, {quiz.dueDate}
-              <FaTrash
-                className="text-danger ms-2"
-                style={{ cursor: "pointer" }}
-                onClick={() => removeQuiz(cid!, quiz._id)}
-              />
+            <li key={quiz._id} className="list-group-item d-flex justify-content-between align-items-center">
+              <div className="d-flex align-items-center flex-grow-1">
+                <FaCheckCircle className={quiz.isPublished ? "text-success" : "text-danger"} />
+                <div className="ms-3">
+                  <strong>{quiz.title}</strong>
+                  <div>
+                    {renderQuizStatus(quiz)} | Due: {formatDueDate(quiz.dueDate)} | {quiz.points} pts | {quiz.questions.length} Questions
+                  </div>
+                </div>
+              </div>
+              <div className="d-flex align-items-center">
+                <FaTrash className="text-danger ms-2" style={{ cursor: "pointer" }} onClick={() => removeQuiz(cid!, quiz._id)} />
+                <BsThreeDotsVertical style={{ cursor: "pointer" }} />
+              </div>
             </li>
           ))
         )}
