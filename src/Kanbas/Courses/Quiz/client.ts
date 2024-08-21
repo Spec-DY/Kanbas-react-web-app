@@ -20,6 +20,12 @@ export const createQuiz = async (courseId: string, quiz: any) => {
   return response.data;
 };
 
+export const updateQuiz = async (courseId: string, quizId: string, quizData: any) => {
+  const response = await axios.put(`${COURSES_API}/${courseId}/quizzes/${quizId}`, quizData);
+  return response.data;
+};
+
+
 // in progress
  
 

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchQuizzesForCourse, deleteQuiz as deleteQuizAPI, createQuiz as createQuizAPI } from "./client";
-import { setQuizzes, deleteQuiz, addQuiz } from "./reducer";
-import { FaTrash, FaPlus } from "react-icons/fa";
-import { FaCheckCircle } from "react-icons/fa";
+import { fetchQuizzesForCourse, deleteQuiz as deleteQuizAPI, createQuiz as createQuizAPI, updateQuiz as updateQuizAPI} from "./client";
+import { setQuizzes, deleteQuiz, addQuiz, publishQuiz } from "./reducer";
+import { FaTrash, FaPlus, FaCheckCircle, FaRegEdit } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaRegEdit } from "react-icons/fa";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Dropdown from 'react-bootstrap/Dropdown';
+
 
 
 export default function Quizzes() {
@@ -18,10 +19,8 @@ export default function Quizzes() {
 
   const fetchQuizzes = async () => {
     try {
-      console.log("cid:", cid);
       const quizzes = await fetchQuizzesForCourse(cid!);
       dispatch(setQuizzes(quizzes));
-      console.log("quizzes fetched:", quizzes);
     } catch (error) {
       console.error("Error fetching quizzes:", error);
     }
@@ -34,13 +33,11 @@ export default function Quizzes() {
   const removeQuiz = async (courseId: string, quizId: string) => {
     try {
       await deleteQuizAPI(courseId, quizId);
-      dispatch(deleteQuiz(quizId)); // refresh redux store
-      console.log(`Quiz ${quizId} from course ${courseId} deleted successfully.`);
+      dispatch(deleteQuiz(quizId));
     } catch (error) {
       console.error("Error deleting quiz:", error);
     }
   };
-
 
   const handleCreateQuiz = async () => {
     const newQuizData = {
@@ -55,17 +52,27 @@ export default function Quizzes() {
     try {
       const createdQuiz = await createQuizAPI(cid!, newQuizData);
       dispatch(addQuiz(createdQuiz));
-      console.log("Created quiz:", createdQuiz);
-      navigate(`/Kanbas/Courses/${cid}/Quiz/${createdQuiz._id}`);
+      navigate(`/Kanbas/Courses/${cid}/Quiz/${createdQuiz._id}/editor`);
     } catch (error) {
       console.error("Error creating quiz:", error);
     }
   };
 
+  const handlePublishQuiz = async (quizId: string, isPublished: boolean) => {
+    try {
+        const updatedQuiz = await updateQuizAPI(cid!, quizId, { isPublished });
+        dispatch(publishQuiz({ quizId: updatedQuiz._id, isPublished: updatedQuiz.isPublished }));
+        fetchQuizzes();
+    } catch (error) {
+        console.error("Error publishing/unpublishing quiz:", error);
+    }
+};
+
+
   const renderQuizStatus = (quiz: any) => {
     const now = new Date();
     if (now < new Date(quiz.availableFrom)) {
-        return `Not available until ${new Date(quiz.availableFrom).toLocaleDateString()}`;
+      return `Not available until ${new Date(quiz.availableFrom).toLocaleDateString()}`;
     } else if (now > new Date(quiz.dueDate)) {
       return "Closed";
     } else {
@@ -75,7 +82,7 @@ export default function Quizzes() {
 
   const formatDueDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString(); // format date to userfriendly
+    return date.toLocaleDateString();
   };
 
   return (
@@ -103,10 +110,21 @@ export default function Quizzes() {
                   </div>
                 </div>
               </div>
-              <div className="d-flex align-items-center">
-                <FaTrash className="text-danger ms-2" style={{ cursor: "pointer" }} onClick={() => removeQuiz(cid!, quiz._id)} />
-                <BsThreeDotsVertical style={{ cursor: "pointer" }} />
-              </div>
+
+
+              <Dropdown drop="start" >
+                <Dropdown.Toggle id="dropdown-custom-components">
+                    <BsThreeDotsVertical />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                <Dropdown.Item onClick={() => navigate(`/Kanbas/Courses/${cid}/Quiz/${quiz._id}/detail`)}>Edit</Dropdown.Item>
+                <Dropdown.Item onClick={() => removeQuiz(cid!, quiz._id)}>Delete</Dropdown.Item>
+                <Dropdown.Item onClick={() => handlePublishQuiz(quiz._id, !quiz.isPublished)}>
+                  {quiz.isPublished ? "Unpublish" : "Publish"}</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+
             </li>
           ))
         )}

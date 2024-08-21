@@ -52,7 +52,7 @@ export default function Kanbas() {
         );
     };
 
-    const enrollInCourse = async (courseId: string) => {  // << 新增enrollInCourse函数
+    const enrollInCourse = async (courseId: string) => { 
         await client.enrollInCourse(courseId, currentUser._id);
         fetchCourses(); // Refresh the courses after enrollment
     };
