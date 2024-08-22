@@ -1,0 +1,31 @@
+.question-container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .question-title {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  .correct {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .incorrect {
+    color: red;
+    font-weight: bold;
+  }
+  
+  

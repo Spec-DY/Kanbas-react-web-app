@@ -29,6 +29,15 @@ export default function QuizDetails() {
             onClick={()=> navigate(`/Kanbas/Courses/${cid}/Quiz`)}>
             Back
         </button>
+        <button className="btn btn-outline-secondary me-2 float-end" 
+                onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quiz/${quiz._id}/editor`)}>
+                <BsPencil className="me-2"/>
+                Edit
+        </button>
+        <button className="btn btn-outline-secondary me-2 float-end"
+                onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quiz/${quiz._id}/Preview`)}>
+                Preview</button>
+
         <hr/>
         <h3 className="d-inline">
             {quiz.title}
@@ -114,7 +123,8 @@ export default function QuizDetails() {
     </div>
 
         <div className="d-flex justify-content-center">
-            <button className="btn btn-outline-secondary me-2">Preview</button>
+            <button className="btn btn-outline-secondary me-2" 
+                    onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quiz/${quiz._id}/Preview`)}>Preview</button>
             <button className="btn btn-outline-secondary" 
                     onClick={()=>navigate(`/Kanbas/Courses/${cid}/Quiz/${quiz._id}/editor`)}>
                     <BsPencil className="me-2"/>

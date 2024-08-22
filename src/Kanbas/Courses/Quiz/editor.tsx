@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateQuiz } from "./client";
 import { setQuizzes } from "./reducer";
-import { Tab, Tabs, Form, Button } from "react-bootstrap";
+import { setQuestions } from "./Question/reducer";
+import {fetchQuestionsForQuiz} from "./Question/client";
+import { Tab, Tabs, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
+import MultipleChoiceEditor from './Question/MultipleChoiceEditor';
 
 export default function QuizEdit() {
   const { quizId, cid } = useParams<{ quizId: string; cid: string }>();
   const quiz = useSelector((state: any) =>
     state.quizzesReducer.quizzes.find((q: any) => q._id === quizId)
   );
+
+  const questions = useSelector((state: any) => state.questionsReducer.questions);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -83,7 +89,48 @@ export default function QuizEdit() {
       console.error("Error publishing quiz:", error);
     }
   };
+  
 
+
+  const handleCreateMultipleChoice = () => {
+    navigate(`/Kanbas/Courses/${cid}/Quiz/${quizId}/MultipleChoice`);
+  };
+
+  const handleCreateFillInBlank = () => {
+    navigate(`/Kanbas/Courses/${cid}/Quiz/${quizId}/FillInBlank`);
+  };
+
+  const handleCreateTrueFalse = () => {
+    navigate(`/Kanbas/Courses/${cid}/Quiz/${quizId}/TrueFalse`);
+  };
+
+
+  useEffect(() => {
+    const loadQuestions = async () => {
+      const fetchedQuestions = await fetchQuestionsForQuiz(quizId!);
+      dispatch(setQuestions(fetchedQuestions));
+    };
+    loadQuestions();
+  }, [quizId, dispatch]);
+
+  const handleEditQuestion = (questionId: string, questionType: string) => {
+    let path = "";
+    switch (questionType) {
+      case "Multiple Choice":
+        path = "MultipleChoice";
+        break;
+      case "True/False":
+        path = "TrueFalse";
+        break;
+      case "Fill in the Blanks":
+        path = "FillInBlank";
+        break;
+      default:
+        break;
+    }
+    navigate(`/Kanbas/Courses/${cid}/Quiz/${quizId}/${path}/${questionId}`);
+  };
+  
   return (
     <div className="p-3">
       <h3>Edit Quiz</h3>
@@ -221,8 +268,52 @@ export default function QuizEdit() {
           </div>
         </Tab>
         <Tab eventKey="questions" title="Questions">
-          {/* Implement the Questions tab logic */}
+        <div className="mt-3">
+            <DropdownButton id="dropdown-basic-button" title="+ New Question">
+              <Dropdown.Item onClick={handleCreateMultipleChoice}>Multiple Choice</Dropdown.Item>
+              <Dropdown.Item onClick={handleCreateTrueFalse}>True/False</Dropdown.Item>
+              <Dropdown.Item onClick={handleCreateFillInBlank}>Fill in Blank</Dropdown.Item>
+            </DropdownButton>
+          </div>
+
+          <ListGroup className="mt-3">
+  {questions.map((question: any) => (
+    <ListGroup.Item key={question._id} className="d-flex justify-content-between align-items-center">
+      <div>
+        <strong>{question.title}</strong> ({question.points} pts)
+      </div>
+      <Button 
+        variant="outline-primary" 
+        onClick={() => {
+          let path = "";
+          switch (question.type) {
+            case "Multiple Choice":
+              path = "MultipleChoice";
+              break;
+            case "True/False":
+              path = "TrueFalse";
+              break;
+            case "Fill in the Blanks":
+              path = "FillInBlank";
+              break;
+            default:
+              break;
+          }
+          navigate(`/Kanbas/Courses/${cid}/Quiz/${quizId}/${path}/${question._id}`);
+        }}
+      >
+        Edit
+      </Button>
+    </ListGroup.Item>
+  ))}
+</ListGroup>
+          
+          <div className="d-flex justify-content-between mt-4">
+            <Button variant="outline-secondary" onClick={handleCancel}>Cancel</Button>
+            <Button variant="primary" onClick={handleSave}>Save</Button>
+          </div>
         </Tab>
+ 
       </Tabs>
     </div>
   );

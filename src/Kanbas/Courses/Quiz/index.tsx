@@ -8,6 +8,9 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Dropdown from 'react-bootstrap/Dropdown';
 
+import { fetchQuestionsForQuiz } from "./Question/client"; 
+import { setQuestions } from "./Question/reducer"; 
+
 
 
 export default function Quizzes() {
@@ -16,6 +19,7 @@ export default function Quizzes() {
   const navigate = useNavigate();
   const quizzes = useSelector((state: any) => state.quizzesReducer.quizzes.filter((quiz: any) => quiz.courseId === cid));
   const [loading, setLoading] = useState(true);
+  const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
 
   const fetchQuizzes = async () => {
     try {
@@ -23,6 +27,15 @@ export default function Quizzes() {
       dispatch(setQuizzes(quizzes));
     } catch (error) {
       console.error("Error fetching quizzes:", error);
+    }
+  };
+
+  const fetchQuestions = async (quizId: string) => {
+    try {
+      const questions = await fetchQuestionsForQuiz(quizId);
+      dispatch(setQuestions(questions));
+    } catch (error) {
+      console.error("Error fetching questions:", error);
     }
   };
 
@@ -92,43 +105,56 @@ export default function Quizzes() {
           <span className="input-group-text bg-white"><FaRegEdit /></span>
           <input id="wd-search-quiz" className="form-control" placeholder="Search for Quiz" />
         </div>
-        <button className="btn btn-danger" onClick={handleCreateQuiz}><FaPlus className="me-1" /> Quiz</button>
+        {currentUser.role == "FACULTY" && (
+        <button className="btn btn-danger" 
+                onClick={handleCreateQuiz}>
+                <FaPlus className="me-1" /> 
+                Quiz
+        </button>
+        )}
       </div>
       <h3 className="mb-3">Quizzes</h3>
       <ul className="list-group">
-        {quizzes.length === 0 ? (
-          <p>No quizzes found for this course.</p>
-        ) : (
-          quizzes.map((quiz: any) => (
-            <li key={quiz._id} className="list-group-item d-flex justify-content-between align-items-center">
-              <div className="d-flex align-items-center flex-grow-1">
-                <FaCheckCircle className={quiz.isPublished ? "text-success" : "text-danger"} />
-                <div className="ms-3">
-                  <strong>{quiz.title}</strong>
-                  <div>
-                    {renderQuizStatus(quiz)} | Due: {formatDueDate(quiz.dueDate)} | {quiz.points} pts | {quiz.questions.length} Questions
-                  </div>
-                </div>
-              </div>
+  {quizzes.length === 0 ? (
+    <p>No quizzes found for this course.</p>
+  ) : (
+    quizzes.map((quiz: any) => (
+      <li key={quiz._id} className="list-group-item d-flex justify-content-between align-items-center">
+        
+        <div 
+          className="d-flex align-items-center flex-grow-1"
+          onClick={() => navigate(`/Kanbas/Courses/${cid}/Quiz/${quiz._id}/Question`)}
+          style={{ cursor: 'pointer' }}
+        >
+          <FaCheckCircle className={quiz.isPublished ? "text-success" : "text-danger"} />
+          <div className="ms-3">
+            <strong>{quiz.title}</strong>
+            <div>
+              {renderQuizStatus(quiz)} | Due: {formatDueDate(quiz.dueDate)} | {quiz.points} pts | {quiz.questions.length} Questions
+            </div>
+          </div>
+        </div>
 
+        {currentUser.role === "FACULTY" && (
+          <Dropdown drop="start" onClick={(e) => e.stopPropagation()}>
+            <Dropdown.Toggle id="dropdown-custom-components">
+              <BsThreeDotsVertical />
+            </Dropdown.Toggle>
 
-              <Dropdown drop="start" >
-                <Dropdown.Toggle id="dropdown-custom-components">
-                    <BsThreeDotsVertical />
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                <Dropdown.Item onClick={() => navigate(`/Kanbas/Courses/${cid}/Quiz/${quiz._id}/detail`)}>Edit</Dropdown.Item>
-                <Dropdown.Item onClick={() => removeQuiz(cid!, quiz._id)}>Delete</Dropdown.Item>
-                <Dropdown.Item onClick={() => handlePublishQuiz(quiz._id, !quiz.isPublished)}>
-                  {quiz.isPublished ? "Unpublish" : "Publish"}</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
-
-            </li>
-          ))
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => navigate(`/Kanbas/Courses/${cid}/Quiz/${quiz._id}/detail`)}>Edit</Dropdown.Item>
+              <Dropdown.Item onClick={() => removeQuiz(cid!, quiz._id)}>Delete</Dropdown.Item>
+              <Dropdown.Item onClick={() => handlePublishQuiz(quiz._id, !quiz.isPublished)}>
+                {quiz.isPublished ? "Unpublish" : "Publish"}
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         )}
-      </ul>
+      </li>
+    ))
+  )}
+</ul>
+
     </div>
   );
 }

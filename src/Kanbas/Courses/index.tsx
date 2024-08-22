@@ -13,6 +13,11 @@ import PeopleTable from "./People/Table";
 import PeopleDetails from "./People/Details";
 import QuizDetails from "./Quiz/detail";
 import QuizEditor from "./Quiz/editor";
+import QuestionIndex from "./Quiz/Question";
+import MultipleChoiceEditor from './Quiz/Question/MultipleChoiceEditor';
+import FillInBlankEditor from './Quiz/Question/FillInBlankEditor';
+import TrueFalseEditor from './Quiz/Question/TrueFalseEditor';
+import QuizPreview from './Quiz/Question/Preview';
 
 
 export default function Courses({ courses }: { courses: any[]; }) {
@@ -47,6 +52,14 @@ export default function Courses({ courses }: { courses: any[]; }) {
                         <Route path="Quiz" element={<Quiz />} />
                         <Route path="Quiz/:quizId/detail" element={<QuizDetails />} />
                         <Route path="Quiz/:quizId/editor" element={<QuizEditor />} />
+                        <Route path="Quiz/:quizId/Question" element={<QuestionIndex />} />
+                        <Route path="Quiz/:quizId/MultipleChoice" element={<MultipleChoiceEditor />} />
+                        <Route path="Quiz/:quizId/FillInBlank" element={<FillInBlankEditor />} />
+                        <Route path="Quiz/:quizId/TrueFalse" element={<TrueFalseEditor />} />
+                        <Route path="Quiz/:quizId/Preview" element={<QuizPreview />} />
+                        <Route path="Quiz/:quizId/MultipleChoice/:questionId?" element={<MultipleChoiceEditor />} />
+                        <Route path="Quiz/:quizId/TrueFalse/:questionId?" element={<TrueFalseEditor />} />
+                        <Route path="Quiz/:quizId/FillInBlank/:questionId?" element={<FillInBlankEditor />} />
                     </Routes>
                 </div>
             </div>
