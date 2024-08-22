@@ -74,7 +74,12 @@ const QuestionIndex = () => {
           isCorrect={results[question._id]} 
         />
       ))}
-      <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
+      {questions.length > 0 && (
+        <button className="btn btn-primary" onClick={handleSubmit}>Submit</button>
+    )}
+          {questions.length <= 0 && (
+        <div>No avalible questions</div>
+    )}
     </div>
   );
 };

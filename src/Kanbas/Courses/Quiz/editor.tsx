@@ -133,6 +133,11 @@ export default function QuizEdit() {
   
   return (
     <div className="p-3">
+      <button 
+            className="btn btn-outline-secondary" 
+            onClick={()=> navigate(-1)}>
+            Back
+      </button><hr/>
       <h3>Edit Quiz</h3>
       <Tabs defaultActiveKey="details" id="quiz-edit-tabs">
         <Tab eventKey="details" title="Details">

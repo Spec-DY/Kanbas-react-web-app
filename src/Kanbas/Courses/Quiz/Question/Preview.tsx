@@ -10,8 +10,7 @@ const QuizPreview = () => {
   const [questions, setQuestions] = useState<any[]>([]);
   const [answers, setAnswers] = useState<any>({});
   const [score, setScore] = useState<number | null>(null);
-  
-  // 获取当前用户信息（教师）
+
   const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const QuizPreview = () => {
       const fetchedQuestions = await fetchQuestionsForQuiz(quizId!);
       setQuestions(fetchedQuestions);
 
-      // 加载之前的答案，如果有的话
+
       const savedAnswers = JSON.parse(localStorage.getItem(`quiz_${quizId}_answers_${currentUser._id}`) || '{}');
       setAnswers(savedAnswers);
     };
@@ -46,7 +45,7 @@ const QuizPreview = () => {
 
     setScore(calculatedScore);
 
-    // 保存答案到 localStorage
+
     localStorage.setItem(`quiz_${quizId}_answers_${currentUser._id}`, JSON.stringify(answers));
   };
 
@@ -69,6 +68,11 @@ const QuizPreview = () => {
 
   return (
     <div className="p-3">
+        <button 
+            className="btn btn-outline-secondary" 
+            onClick={()=> navigate(-1)}>
+            Back
+        </button><hr/>
       <h3>Quiz Preview</h3>
       {questions.map((question, index) => (
         <div key={question._id} className="border rounded p-3 mb-3">
@@ -122,7 +126,7 @@ const QuizPreview = () => {
       )}
       <div className="d-flex justify-content-between mt-4">
         <Button variant="outline-secondary" onClick={handleEditQuiz}>Edit Quiz</Button>
-        <Button variant="primary" onClick={handleSubmit}>Submit Quiz</Button>
+        
       </div>
     </div>
   );
