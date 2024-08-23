@@ -8,6 +8,8 @@ import {fetchQuestionsForQuiz} from "./Question/client";
 import { Tab, Tabs, Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { ListGroup } from "react-bootstrap";
 import MultipleChoiceEditor from './Question/MultipleChoiceEditor';
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
 
 export default function QuizEdit() {
   const { quizId, cid } = useParams<{ quizId: string; cid: string }>();
@@ -36,6 +38,8 @@ export default function QuizEdit() {
   const [dueDate, setDueDate] = useState(quiz?.dueDate || "");
   const [availableFrom, setAvailableFrom] = useState(quiz?.availableFrom || "");
   const [availableUntil, setAvailableUntil] = useState(quiz?.availableUntil || "");
+  const [totalPoints, setTotalPoints] = useState(0);
+
 
 
   const handleSave = async () => {
@@ -44,7 +48,7 @@ export default function QuizEdit() {
       title,
       description,
       type: quizType,
-      points,
+      points: totalPoints,
       assignmentGroup,
       shuffleAnswers,
       timeLimit,
@@ -104,6 +108,22 @@ export default function QuizEdit() {
     navigate(`/Kanbas/Courses/${cid}/Quiz/${quizId}/TrueFalse`);
   };
 
+  const toolbarOptions = [
+    ['bold', 'italic', 'underline'],  
+    [{ 'header': [1, 2, 3, false] }],  
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],  
+  ];
+
+  useEffect(() => {
+    const calculateTotalPoints = () => {
+      const total = questions.reduce((sum: number, question: any) => sum + question.points, 0);
+      setTotalPoints(total);
+    };
+    
+    if (questions.length > 0) {
+      calculateTotalPoints();
+    }
+  }, [questions]);
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -113,23 +133,7 @@ export default function QuizEdit() {
     loadQuestions();
   }, [quizId, dispatch]);
 
-  const handleEditQuestion = (questionId: string, questionType: string) => {
-    let path = "";
-    switch (questionType) {
-      case "Multiple Choice":
-        path = "MultipleChoice";
-        break;
-      case "True/False":
-        path = "TrueFalse";
-        break;
-      case "Fill in the Blanks":
-        path = "FillInBlank";
-        break;
-      default:
-        break;
-    }
-    navigate(`/Kanbas/Courses/${cid}/Quiz/${quizId}/${path}/${questionId}`);
-  };
+
   
   return (
     <div className="p-3">
@@ -148,7 +152,7 @@ export default function QuizEdit() {
 
           <Form.Group controlId="quizDescription" className="mt-3">
             <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" rows={3} value={description} onChange={(e) => setDescription(e.target.value)} />
+            <ReactQuill value={description} onChange={setDescription} modules={{ toolbar: toolbarOptions }}/>
           </Form.Group>
 
           <Form.Group controlId="quizType" className="mt-3">
@@ -161,9 +165,9 @@ export default function QuizEdit() {
             </Form.Control>
           </Form.Group>
 
-          <Form.Group controlId="points" className="mt-3">
-            <Form.Label>Points</Form.Label>
-            <Form.Control type="number" value={points} onChange={(e) => setPoints(Number(e.target.value))} />
+          <Form.Group controlId="totalPoints" className="mt-3">
+            <Form.Label>Total Points</Form.Label>
+            <Form.Control type="number" value={totalPoints} readOnly />
           </Form.Group>
 
           <Form.Group controlId="assignmentGroup" className="mt-3">
@@ -273,13 +277,17 @@ export default function QuizEdit() {
           </div>
         </Tab>
         <Tab eventKey="questions" title="Questions">
-        <div className="mt-3">
+        <div className="d-flex align-items-center justify-content-between mt-3">
             <DropdownButton id="dropdown-basic-button" title="+ New Question">
               <Dropdown.Item onClick={handleCreateMultipleChoice}>Multiple Choice</Dropdown.Item>
               <Dropdown.Item onClick={handleCreateTrueFalse}>True/False</Dropdown.Item>
               <Dropdown.Item onClick={handleCreateFillInBlank}>Fill in Blank</Dropdown.Item>
             </DropdownButton>
-          </div>
+            <div className="ms-3">
+              Total points: {totalPoints}
+            </div>
+            
+        </div>
 
           <ListGroup className="mt-3">
   {questions.map((question: any) => (

@@ -9,9 +9,11 @@ const QuestionIndex = () => {
   const { quizId } = useParams<{ quizId: string }>();
   const dispatch = useDispatch();
   const questions = useSelector((state: any) => state.questionsReducer.questions);
+  const quiz = useSelector((state: any) => state.quizzesReducer.quizzes.find((q: any) => q._id === quizId));
   const [loading, setLoading] = useState(true);
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: any }>({});
   const [results, setResults] = useState<{ [key: string]: boolean }>({});
+  const [showAnswers, setShowAnswers] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,14 +35,14 @@ const QuestionIndex = () => {
 
   const handleSubmit = () => {
     const results: { [key: string]: boolean } = {};
-
+  
     questions.forEach((question: any) => {
       let isCorrect = false;
-
+  
       switch (question.type) {
         case "Fill in the Blanks":
-            const normalizedUserAnswer = userAnswers[question._id]?.trim().toLowerCase();
-            const normalizedCorrectAnswers = question.stringAnswers.map((answer: string) => answer.trim().toLowerCase());
+          const normalizedUserAnswer = userAnswers[question._id]?.trim().toLowerCase();
+          const normalizedCorrectAnswers = question.stringAnswers.map((answer: string) => answer.trim().toLowerCase());
           isCorrect = normalizedCorrectAnswers.includes(normalizedUserAnswer);
           break;
         case "Multiple Choice":
@@ -51,11 +53,15 @@ const QuestionIndex = () => {
           isCorrect = question.booleanAnswer === (userAnswers[question._id] === "true");
           break;
       }
-
+  
       results[question._id] = isCorrect;
     });
-
+  
     setResults(results);
+  
+    if (quiz?.showCorrectAnswers) {
+      setShowAnswers(true);
+    }
   };
 
   if (loading) {
@@ -72,6 +78,7 @@ const QuestionIndex = () => {
           userAnswer={userAnswers[question._id] || ''} 
           onAnswerChange={handleAnswerChange} 
           isCorrect={results[question._id]} 
+          showCorrectAnswers={showAnswers}
         />
       ))}
       {questions.length > 0 && (
@@ -84,8 +91,12 @@ const QuestionIndex = () => {
   );
 };
 
-const QuestionDisplay = ({ question, userAnswer, onAnswerChange, isCorrect }: 
-    { question: any, userAnswer: any, onAnswerChange: (questionId: string, answer: any) => void, isCorrect: boolean | undefined }) => {
+const QuestionDisplay = ({ question, userAnswer, onAnswerChange, isCorrect, showCorrectAnswers }: 
+    { question: any, 
+      userAnswer: any, 
+      onAnswerChange: (questionId: string, answer: any) => void, 
+      isCorrect: boolean | undefined;
+      showCorrectAnswers: boolean; }) => {
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           onAnswerChange(question._id, e.target.value);
         };
@@ -93,14 +104,17 @@ const QuestionDisplay = ({ question, userAnswer, onAnswerChange, isCorrect }:
         return (
           <div className="question-container">
             <div className="question-header">
-              <h3 className="question-title">{question.title}</h3>
+              <h3 className="question-title">
+                {question.title}
+                <span className="points">({question.points} pts)</span>
+              </h3>
               {isCorrect !== undefined && (
                 <span className={isCorrect ? "correct" : "incorrect"}>
                   {isCorrect ? 'Correct!' : 'Incorrect'}
                 </span>
               )}
             </div>
-            <p>{question.question}</p>
+            <div dangerouslySetInnerHTML={{ __html: question.question }} />
             {question.type === "Fill in the Blanks" && (
               <input 
                 type="text" 
@@ -148,6 +162,26 @@ const QuestionDisplay = ({ question, userAnswer, onAnswerChange, isCorrect }:
                   <label htmlFor={`${question._id}-false`}>False</label>
                 </div>
               </>
+            )}
+          {showCorrectAnswers && (
+            <div className="correct-answer">
+              <strong>Correct Answer:</strong>
+              {question.type === "Multiple Choice" && (
+                <div>
+                  {question.choices
+                    .filter((choice: any) => choice.isCorrect)
+                    .map((correctChoice: any, index: number) => (
+                      <div key={index}>{correctChoice.text}</div>
+                    ))}
+                </div>
+              )}
+              {question.type === "True/False" && (
+                <div>{question.booleanAnswer ? "True" : "False"}</div>
+              )}
+              {question.type === "Fill in the Blanks" && (
+                <div>{question.stringAnswers.join(", ")}</div>
+              )}
+            </div>
             )}
           </div>
         );

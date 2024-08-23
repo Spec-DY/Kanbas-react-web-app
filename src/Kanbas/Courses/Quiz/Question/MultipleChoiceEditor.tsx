@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import { createQuestion, fetchQuestionById, updateQuestion } from './client';
 import { useSelector, useDispatch } from "react-redux";
+import ReactQuill from "react-quill";
 
 interface Choice {
   text: string;
@@ -17,6 +18,7 @@ const MultipleChoiceEditor = () => {
   const [question, setQuestion] = useState('');
   const [choices, setChoices] = useState<Choice[]>([{ text: '', isCorrect: false }]);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     if (questionId) {
@@ -88,6 +90,13 @@ const MultipleChoiceEditor = () => {
     }
   };
 
+  const toolbarOptions = [
+    ['bold', 'italic', 'underline'], 
+    [{ 'header': 1 }, { 'header': 2 }], 
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'align': [] }],
+  ];
+
   return (
     <div className="p-3">
       <h3>{questionId ? "Edit" : "Create"} Multiple Choice Question</h3>
@@ -112,11 +121,10 @@ const MultipleChoiceEditor = () => {
 
       <Form.Group controlId="questionText" className="mt-3">
         <Form.Label>Question</Form.Label>
-        <Form.Control 
-          as="textarea" 
-          rows={3} 
+        <ReactQuill 
           value={question} 
-          onChange={(e) => setQuestion(e.target.value)} 
+          onChange={setQuestion} 
+          modules={{ toolbar: toolbarOptions }} 
         />
       </Form.Group>
 

@@ -9,7 +9,7 @@ export default function QuizDetails() {
   const quiz = useSelector((state: any) =>
     state.quizzesReducer.quizzes.find((q: any) => q._id === quizId)
   );
-
+  const questions = useSelector((state: any) => state.questionsReducer.questions);
   const navigate = useNavigate();
 
   if (!quiz) {
@@ -20,6 +20,9 @@ export default function QuizDetails() {
     const date = new Date(dateString);
     return date.toLocaleDateString();
   };
+
+  const totalPoints = questions.reduce((sum: number, question: any) => sum + (question.points || 0), 0);
+
 
   return (
     <div id="wd-quiz-details" className="p-3">
@@ -54,8 +57,8 @@ export default function QuizDetails() {
                 <td className="align-middle">{quiz.type || "Graded Quiz"}</td>
             </tr>
             <tr>
-                <td className="align-middle text-end"><strong>Points</strong></td>
-                <td className="align-middle">{quiz.points}</td>
+                <td className="align-middle text-end"><strong>Total Points</strong></td>
+                <td className="align-middle">{totalPoints}</td>
             </tr>
             <tr>
                 <td className="align-middle text-end"><strong>Assignment Group</strong></td>

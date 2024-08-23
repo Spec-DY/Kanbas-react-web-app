@@ -74,10 +74,11 @@ const QuizPreview = () => {
             Back
         </button><hr/>
       <h3>Quiz Preview</h3>
+      
       {questions.map((question, index) => (
         <div key={question._id} className="border rounded p-3 mb-3">
-          <h5>{`Question ${index + 1}`}</h5>
-          <p>{question.question}</p>
+          <h5>{question.title||`Question ${index + 1}`}</h5>
+          <div dangerouslySetInnerHTML={{ __html: question.question }} />
           <Form.Group>
             {question.type === "Multiple Choice" && (
               question.choices?.map((choice: any) => (

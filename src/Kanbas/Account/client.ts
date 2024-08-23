@@ -29,3 +29,9 @@ export const fetchCoursesForUser = async (userId: string) => {
     const response = await axios.get(`${USERS_API}/${userId}/courses`);
     return response.data;
 };
+
+export const updateProfile = async (profile: any) => {
+    const response = await axiosWithCredentials.put(`${USERS_API}/profile`, profile);
+    return response.data;
+  };
+  

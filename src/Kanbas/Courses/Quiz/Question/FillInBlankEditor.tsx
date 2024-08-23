@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { createQuestion, fetchQuestionById, updateQuestion } from './client'; 
 import { Form, Button } from "react-bootstrap";
+import ReactQuill from "react-quill";
 
 const FillInBlankEditor = () => {
   const { quizId, questionId } = useParams<{ quizId: string; questionId?: string }>();
@@ -77,9 +78,25 @@ const FillInBlankEditor = () => {
     }
   };
 
+  const toolbarOptions = [
+    ['bold', 'italic', 'underline'], 
+    [{ 'header': 1 }, { 'header': 2 }], 
+    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    [{ 'align': [] }],
+  ];
+
   return (
     <div className="p-3">
       <h3>{questionId ? "Edit" : "Create"} Fill in the Blank Question</h3>
+
+      <Form.Group controlId="title" className="mt-3">
+        <Form.Label>Title</Form.Label>
+        <Form.Control 
+          type="text" 
+          value={title} 
+          onChange={(e) => setTitle(e.target.value)} 
+        />
+      </Form.Group>
 
       <Form.Group controlId="points" className="mt-3">
         <Form.Label>Points</Form.Label>
@@ -92,11 +109,10 @@ const FillInBlankEditor = () => {
 
       <Form.Group controlId="questionText" className="mt-3">
         <Form.Label>Question</Form.Label>
-        <Form.Control 
-          as="textarea" 
-          rows={3} 
+        <ReactQuill 
           value={question} 
-          onChange={(e) => setQuestion(e.target.value)} 
+          onChange={setQuestion} 
+          modules={{ toolbar: toolbarOptions }} 
         />
       </Form.Group>
 

@@ -25,10 +25,7 @@ export const updateQuiz = async (courseId: string, quizId: string, quizData: any
   return response.data;
 };
 
-
-// in progress
  
-
 
 export const publishQuiz = async (quizId: string, isPublished: boolean) => {
   const response = await axios.put(`${COURSES_API}/${quizId}/publish`, { isPublished });
@@ -37,5 +34,15 @@ export const publishQuiz = async (quizId: string, isPublished: boolean) => {
 
 export const copyQuiz = async (quizId: string, targetCourseId: string) => {
   const response = await axios.post(`${COURSES_API}/${quizId}/copy`, { targetCourseId });
+  return response.data;
+};
+
+export const fetchQuizAttemptInfo = async (quizId: string) => {
+  const response = await axios.get(`${COURSES_API}/${quizId}/attempts`);
+  return response.data;
+};
+
+export const submitQuizAttempt = async (quizId: string, answers: any) => {
+  const response = await axios.post(`${COURSES_API}/${quizId}/submit`, { answers });
   return response.data;
 };
