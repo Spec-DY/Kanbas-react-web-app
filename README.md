@@ -10,7 +10,7 @@
   **password**:`legolas123`<br>
   *Note: This faculty member has created 9 courses.*
 #### Or, as a student:
-**username**:`iron_man`<br>
-**password**:`stark123`<br>
+- **username**:`iron_man`<br>
+  **password**:`stark123`<br>
 #### Quiz related
 For testing quizzes, log in as `ring_bearer`. Then, navigate to the **Rocket Propulsion** course (the first course), where several quizzes are available.
