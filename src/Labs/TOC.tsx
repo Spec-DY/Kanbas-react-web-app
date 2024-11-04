@@ -13,7 +13,7 @@ export default function TOC() {
 
         <li className="nav-item">
             <a id="wd-k" href="#/Kanbas" className="nav-link">
-        Kanbas
+        Canbas
         </a>
         </li>
 
