@@ -1,4 +1,17 @@
 
+### Show case:
+<p align="center">
+  <img src="public/images/student%20view.gif" alt="Student View" />
+  <br>
+  <em>Student View</em>
+</p>
+
+<p align="center">
+  <img src="public/images/faculty%20view.gif" alt="Faculty View" />
+  <br>
+  <em>Faculty View</em>
+</p>
+
 ### Website:
 [Canbas](https://canbas.netlify.app/#/Kanbas/Account/Signin)
 
