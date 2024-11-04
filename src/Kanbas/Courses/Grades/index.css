@@ -1,0 +1,43 @@
+#wd-grades {
+    padding: 20px;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #f8f9fa;
+}
+
+.input-group-text {
+    background-color: #e9ecef;
+}
+
+.input-group .form-control {
+    border-left: 0;
+}
+
+.dropdown-menu {
+    min-width: 200px;
+}
+
+.btn-secondary {
+    --bs-btn-color: #000;
+    --bs-btn-bg: #c7cdd1;
+    --bs-btn-border-color: #c7cdd1;
+    --bs-btn-hover-color: #fff;
+    background-color: var(--bs-btn-bg);
+    border-color: var(--bs-btn-border-color);
+    color: var(--bs-btn-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--bs-btn-color);
+    border-color: var(--bs-btn-color);
+}

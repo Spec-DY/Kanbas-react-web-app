@@ -1,140 +1,96 @@
-export default function Dashboard() {
+import React, { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+
+export default function Dashboard({ courses, course, setCourse, addNewCourse,
+    deleteCourse, updateCourse, enrollInCourse}: {
+    courses: any[]; course: any; setCourse: (course: any) => void;
+    addNewCourse: () => void; deleteCourse: (course: any) => void;
+    updateCourse: () => void; enrollInCourse: (courseId: string) => void;})
+    {
+
+        const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
     return (
-    <div id="wd-dashboard">
-        <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
-        <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
-        <div id="wd-dashboard-courses">
-            <div className="wd-dashboard-course">
-                <img src="/images/reactjs.jpg" width={200} alt="reactjs"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/001/Home">
-                    CS001 React JS
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Full Stack software developer
-                    </p>
-                    <a href="#/Kanbas/Courses/001/Home"> Go </a>
+        <div id="wd-dashboard">
+            <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
+            {currentUser && currentUser.role === "FACULTY" && ( // based on role
+                <>
+            <h5>New Course
+            <br />
+            <input value={course.name} className="form-control mb-2" 
+                onChange={(e) => setCourse({ ...course, name: e.target.value }) } />
+
+            <textarea value={course.description} className="form-control"
+                onChange={(e) => setCourse({ ...course, description: e.target.value }) }/><hr />
+            <button className="btn btn-primary float-end"
+                    id="wd-add-new-course-click"
+                    onClick={addNewCourse} > Add </button>
+            <button className="btn btn-warning float-end me-2"
+                onClick={updateCourse} id="wd-update-course-click">
+            Update
+            </button>
+
+            </h5><hr />
+            </>
+            )}
+
+            {currentUser && currentUser.role === "STUDENT" && (
+                <Link to="/Kanbas/EnrollCourses">
+                    <button id="wd-enroll-course-click" className="btn btn-primary float-end">
+                        Browse Courses
+                    </button>
+                </Link>
+            )}
+
+            <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2> <hr />
+            <div id="wd-dashboard-courses" className="row">
+                <div className="row row-cols-1 row-cols-md-5 g-4">
+                    {courses.map((course) => (
+                        <div key={course._id} className="wd-dashboard-course col" style={{ width: "300px" }}>
+                            <Link to={`/Kanbas/Courses/${course._id}/Home`} className="text-decoration-none">
+                            
+                                <div className="card rounded-3 overflow-hidden">
+                                    <img src={course.image || '/images/reactjs.jpg'} style={{ width: "100%", height: "160px", objectFit: "cover" }} alt={course.name} />
+                                    <div className="card-body">
+                                        <span className="wd-dashboard-course-link"
+                                            style={{ textDecoration: "none", color: "navy", fontWeight: "bold" }} >
+                                            {course.name}
+                                        </span>
+                                        <p className="wd-dashboard-course-title card-text" style={{ maxHeight: 53, overflow: "hidden" }}>
+                                            {course.description}
+                                        </p>
+
+                                        <button className="btn btn-primary">Go</button>
+                                        {currentUser && currentUser.role === "FACULTY" && (  // based on role
+                                            <>
+                                        <button onClick={(event) => {
+                                            event.preventDefault();
+                                            deleteCourse(course._id);
+                                            }} className="btn btn-danger float-end"
+                                            id="wd-delete-course-click">Delete
+                                        </button>
+                                        <button id="wd-edit-course-click"
+                                            onClick={(event) => {
+                                                event.preventDefault();
+                                                setCourse(course);
+                                            }}
+                                            className="btn btn-warning me-2 float-end" >
+                                            Edit
+                                        </button>
+                                    
+                                        </>
+                                        )}
+                                    </div>
+                                </div>
+                                
+                            </Link>
+                            
+                        </div>
+                    ))}
                 </div>
             </div>
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/python.jpg" width={200} alt="python"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/002/Home">
-                    CS002 Python
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Learn Python
-                    </p>
-                    <a href="#/Kanbas/Courses/002/Home"> Go </a>
-                </div>
-            </div>
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/datastructure.jpg" width={200} alt="data structure"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/003/Home">
-                    CS003 Data Structure
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Dive into basic data structure
-                    </p>
-                    <a href="#/Kanbas/Courses/003/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/algorithm.jpg" width={200} alt="algorithm"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/004/Home">
-                    CS004 Algorithm
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Algorithm
-                    </p>
-                    <a href="#/Kanbas/Courses/004/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/distributedsystem.jpg" width={200} alt="distributed system" />
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/005/Home">
-                    CS005 Distributed System
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Distributed computing system
-                    </p>
-                    <a href="#/Kanbas/Courses/005/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/math.jpg" width={200} alt="math"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/006/Home">
-                    CS006 Math
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Discrete structure in computer science
-                    </p>
-                    <a href="#/Kanbas/Courses/006/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/network.jpg" width={200} alt="Computer network" />
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/007/Home">
-                    CS007 Computer Network
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Computer networks from top to bottom
-                    </p>
-                    <a href="#/Kanbas/Courses/007/Home"> Go </a>
-                </div>
-            </div>
-
-            <br/>
-            <div className="wd-dashboard-course">
-                <img src="/images/operatingsystem.jpg" width={200} alt="operating system"/>
-                <div>
-                    <a className="wd-dashboard-course-link"
-                    href="#/Kanbas/Courses/008/Home">
-                    CS008 Operating System
-                    </a>
-                    <p className="wd-dashboard-course-title">
-                    Develop operating system from scratch
-                    </p>
-                    <a href="#/Kanbas/Courses/008/Home"> Go </a>
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
-    </div>
-);}
+    );
+}
