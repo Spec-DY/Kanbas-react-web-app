@@ -1,8 +1,6 @@
 
 Website:
-https://kanbas-dingyang.netlify.app/#/Labs/Lab1
-or
-<branch name>--kanbas-dingyang.netlify.app
+[Canbas](https://canbas.netlify.app/#/Kanbas/Account/Signin)
 
 ## Available Scripts
 
