@@ -14,9 +14,7 @@ export default function Labs() {
 return (
     <Provider store={store}>
         <div id="wd-labs">
-            <h1>Dingyang Jin</h1>
-            <h2>Section 01</h2>
-            <h1>Kanbas Readme</h1>
+            <h1>Canbas Readme</h1>
             <TOC />
             <Routes>
                 <Route path="/" element={<Navigate to="Lab1" />} />
