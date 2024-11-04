@@ -5,7 +5,7 @@
 ##### Play around as these two faculties:
 **username**:elf_archer<br>
 **password**:legolas123<br>
-Who created 9 courses<br>
+Who created 9 courses<br><hr>
 **username**:ring_bearer<br>
 **password**:shire123<br>
 Who created 8 courses
